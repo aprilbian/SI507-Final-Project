@@ -97,16 +97,6 @@ def load_games(game_dict):
     conn.close()
 
 def load_details(detail_dict, status=True):
-    '''load detail info to datavase
-    
-    Parameters
-    ----------
-    game_dict: dict
-    
-    Returns
-    -------
-    None
-    '''
 
     insert_details_sql = '''
         INSERT INTO Details
@@ -149,15 +139,6 @@ def load_details(detail_dict, status=True):
     conn.commit()
     conn.close()
 
-
-def Execute_Query(Query):
-
-    connection = sqlite3.connect(DB_NAME)
-    cursor = connection.cursor()
-    result = cursor.execute(Query).fetchall()
-    connection.close()
-    return result
-
 def get_db_results(method='1'):
 
     if method == '1':
@@ -179,10 +160,12 @@ def get_db_results(method='1'):
         ORDER BY RATE DESC 
         LIMIT 10 
         '''   
-    else:
-        print("ERROR PLEASE INPUT VALID NUMBER")
-    results = Execute_Query(query)
-    return results
+    connection = sqlite3.connect(DB_NAME)
+    cursor = connection.cursor()
+    result = cursor.execute(query).fetchall()
+    connection.close()
+
+    return result
 
 
 def make_request_with_cache(url, cache):
@@ -192,7 +175,7 @@ def make_request_with_cache(url, cache):
         return cache[url], True
     else:
         print("Fetching")
-        time.sleep(1)
+        time.sleep(0.5)
         response = requests.get(url)
         return response.text, False
 
@@ -390,13 +373,13 @@ def handle_form_catagory():
     if status:
         load_database(game_dict, False)
         results = get_db_results()
-        return render_template('detail.html', results=results)
+        return render_template('show_detail.html', results=results)
     else:
         load_database(game_dict)
         game_dict = get_db_results()
         CACHE_DICT[url] = game_dict
         save_cache(CACHE_DICT)
-        return render_template('detail.html', results=game_dict)
+        return render_template('show_detail.html', results=game_dict)
 
 @app.route('/handle_form_search', methods=['POST'])
 def handle_form_search():
@@ -404,20 +387,20 @@ def handle_form_search():
     url_search = "https://store.steampowered.com/search/?term="
     game_dict, url, status = get_search_results(url_search, name)
     if game_dict is None:
-        return render_template('response.html')
+        return render_template('exceptions.html')
     else:
         if status:
             order = request.form["order"]
             load_database(game_dict, False)
             results = get_db_results(order)
-            return render_template('detail.html', results=results)
+            return render_template('show_detail.html', results=results)
         else:
             load_database(game_dict)
             order = request.form["order"]
             results = get_db_results(order)
             CACHE_DICT[url] = results
             save_cache(CACHE_DICT)
-            return render_template('detail.html', results=results)
+            return render_template('show_detail.html', results=results)
 
 
 @app.route('/check_languages', methods=['POST'])
