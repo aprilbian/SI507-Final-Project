@@ -1,7 +1,8 @@
-Project code: https://github.com/puhuajiang/steam_search
+# Searching 
 
-README: just run search.py to run my code. Then you will be leading to a web page, enter the search term and choose the way to show your result. For the first time to search, it will take some time to fetching the data.
+## How to run the code:
 
-REQUEST: Plotly, requests, bs4, flask
+Just type “python3.6 main.py” and you will need to visit “http://127.0.0.1:5000/” to interact with the program. 
 
-DEMO: https://www.youtube.com/watch?v=EBrXumrb8GA
+## Required python packages: requests, bs4, flask, numpy, sqlite3
+## Video Link: https://youtu.be/Zapno8F4cvw
