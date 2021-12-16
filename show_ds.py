@@ -46,4 +46,6 @@ construct_graph()
 # using the tree structure, there is no need to construct
 # the tree to store the information, just keep the information
 # as lists is enough.
-print(cache_dict['https://store.steampowered.com/app/1527950'])
+item = cache_dict['https://store.steampowered.com/app/1527950']
+for key,value in item.items():
+    print(key,':',value)
