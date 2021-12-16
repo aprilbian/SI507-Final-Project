@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Check Languages</title>
+  <style>
+      table, th, td {
+          border: 1px solid black;
+      }
+  </style>
+</head>
+<body>
+    <h3>
+        The supported languages are ...
+    
+    <table style="width: auto; font-size:10px">
+        <tr>
+            <th>Names</th>
+            <th>Simplified Chinese</th>
+            <th>English</th>
+            <th>French</th>
+            <th>Russian</th>
+            <th>Japanese</th>
+        </tr>
+
+        {% for game, lang in results %}
+
+            <tr>
+                <th>{{game[1]}} </th>
+                <th>{{lang[0]}}</th>
+                <th>{{lang[1]}}</th>
+                <th>{{lang[2]}}</th>
+                <th>{{lang[3]}}</th>
+                <th>{{lang[4]}}</th>
+            </tr>
+        {% endfor %}
+    
+    </table>
+
+    </h3> 
+</body>
+</html>
